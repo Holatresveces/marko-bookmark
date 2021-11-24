@@ -46,7 +46,7 @@ const App = () => {
       <button onClick={toggleAddBookmarkDialog}>Add new bookmark</button>
       <BookmarkList bookmarks={bookmarks} />
       {showAddBookmarkDialog && (
-        <AddBookmarkDialog toggle={toggleAddBookmarkDialog} />
+        <AddBookmarkDialog toggleDialog={toggleAddBookmarkDialog} />
       )}
     </>
   );

@@ -3,6 +3,8 @@ import { Bookmark } from "./interfaces";
 import BookmarkList from "./components/BookmarkList";
 import AddBookmarkDialog from "./components/AddBookmarkDialog";
 import Header from "./components/Header";
+import Button from "./components/Button";
+import Welcome from "./components/Welcome";
 
 const App = () => {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
@@ -37,15 +39,27 @@ const App = () => {
   return (
     <>
       <Header />
-      <button onClick={toggleAddBookmarkDialog}>Add new bookmark</button>
-      <BookmarkList bookmarks={bookmarks} deleteBookmark={deleteBookmark} />
-      {showAddBookmarkDialog && (
-        <AddBookmarkDialog
-          addBookmark={addBookmark}
-          bookmarks={bookmarks}
-          toggleDialog={toggleAddBookmarkDialog}
-        />
-      )}
+      <main className="bg-gray-200 font-Inter h-screen">
+        <div className="max-w-7xl mx-auto">
+          <div className="p-5">
+            {bookmarks.length === 0 ? (
+              <Welcome toggleAddBookmarkDialog={toggleAddBookmarkDialog} />
+            ) : (
+              <BookmarkList
+                bookmarks={bookmarks}
+                deleteBookmark={deleteBookmark}
+              />
+            )}
+            {showAddBookmarkDialog && (
+              <AddBookmarkDialog
+                addBookmark={addBookmark}
+                bookmarks={bookmarks}
+                toggleDialog={toggleAddBookmarkDialog}
+              />
+            )}
+          </div>
+        </div>
+      </main>
     </>
   );
 };

@@ -49,8 +49,21 @@ const reducer = (state: State, action: ActionType): State => {
     }
     case "fetch-metadata":
       return { newBookmark: { ...newBookmark }, isLoading: true };
-    case "set-metadata":
-      return { newBookmark: { ...action.payload }, isLoading: false };
+    case "set-metadata": {
+      const metadata = action.payload;
+      const { image } = metadata;
+      const newImage = image ? bookmarkPlaceholder : image;
+
+      const newState = {
+        newBookmark: { ...metadata },
+        isLoading: false,
+      };
+
+      newState.newBookmark.image = newImage;
+
+      return newState;
+    }
+
     default:
       return state;
   }

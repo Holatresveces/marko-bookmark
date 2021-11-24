@@ -18,9 +18,11 @@ app.get("/api/metadata", async (req, res) => {
     const metadata = await metascraper({ html, url });
     console.log(metadata);
     res.json(metadata);
-  } catch (err) {
-    console.log(err);
-    res.status(400).send(err);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      error,
+    });
   }
 });
 

@@ -2,6 +2,7 @@ import { ChangeEvent, useReducer } from "react";
 import { Bookmark } from "../interfaces";
 import { IoMdClose } from "react-icons/io";
 import bookmarkPlaceholder from "../images/bookmark-header-placeholder.png";
+import axios from "axios";
 
 // TODO: Handle error
 // TODO: Update Bookmark interface
@@ -9,7 +10,18 @@ import bookmarkPlaceholder from "../images/bookmark-header-placeholder.png";
 interface State {
   newBookmark: Bookmark;
   isLoading: boolean;
+  error: string | null;
 }
+const initialState: State = {
+  newBookmark: {
+    description: "",
+    image: "",
+    title: "",
+    url: "",
+  },
+  isLoading: false,
+  error: null,
+};
 
 type ActionType =
   | { type: "fetch-metadata" }
@@ -23,6 +35,12 @@ type ActionType =
   | {
       type: "set-metadata";
       payload: Bookmark;
+    }
+  | {
+      type: "reset-metadata";
+      payload: {
+        error: string;
+      };
     };
 
 const reducer = (state: State, action: ActionType): State => {
@@ -41,6 +59,7 @@ const reducer = (state: State, action: ActionType): State => {
       const newState = {
         newBookmark: { ...newBookmark },
         isLoading: false,
+        error: null,
       };
 
       newState.newBookmark[name as keyof Bookmark] = value;
@@ -48,22 +67,32 @@ const reducer = (state: State, action: ActionType): State => {
       return newState;
     }
     case "fetch-metadata":
-      return { newBookmark: { ...newBookmark }, isLoading: true };
+      return { newBookmark: { ...newBookmark }, isLoading: true, error: null };
     case "set-metadata": {
       const metadata = action.payload;
       const { image } = metadata;
-      const newImage = image ? bookmarkPlaceholder : image;
+      const newImage = image ? image : bookmarkPlaceholder;
 
       const newState = {
         newBookmark: { ...metadata },
         isLoading: false,
+        error: null,
       };
 
       newState.newBookmark.image = newImage;
 
       return newState;
     }
+    case "reset-metadata": {
+      const newState = {
+        ...initialState,
+        isLoading: false,
+        error: "Oops! Something went wrong...",
+      };
+      newState.newBookmark.image = null;
 
+      return newState;
+    }
     default:
       return state;
   }
@@ -76,15 +105,7 @@ interface Props {
 }
 
 const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
-  const [state, dispatch] = useReducer(reducer, {
-    newBookmark: {
-      description: "",
-      image: "",
-      title: "",
-      url: "",
-    },
-    isLoading: false,
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const { newBookmark, isLoading } = state;
   const { description, image, title, url } = newBookmark;
@@ -123,16 +144,17 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
 
     dispatch({ type: "fetch-metadata" });
 
-    fetch(`http://localhost:3001/api/metadata?url=${url}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((metadata) => {
-        console.log(metadata);
-        dispatch({ type: "set-metadata", payload: metadata });
+    axios
+      .get(`http://localhost:3001/api/metadata?url=${url}`)
+      .then(({ data }) => {
+        console.log("metadata fetched successfully");
+        console.log(data);
+        dispatch({ type: "set-metadata", payload: data });
       })
       .catch((err) => {
+        console.log("metadata fetching failed");
         console.log(err);
+        dispatch({ type: "reset-metadata", payload: { error: err } });
       });
   };
 

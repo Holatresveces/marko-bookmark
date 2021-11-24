@@ -11,8 +11,8 @@ const BookmarkItem = ({ bookmark, deleteBookmark }: Props) => {
   return (
     <article>
       <img src={image ? image : bookmarkPlaceholder} width="200" alt="" />
-      <h1>{title}</h1>
-      <p>{description}</p>
+      <h1>{title ? title : "[No title]"}</h1>
+      <p>{description ? description : "[No description]"}</p>
       <a href={url}>URL</a>
       <button onClick={() => deleteBookmark(bookmark)}>Delete</button>
     </article>

@@ -43,12 +43,19 @@ const App = () => {
     setBookmarks([...bookmarks, bookmark]);
   };
 
+  const deleteBookmark = ({ url }: Bookmark) => {
+    const filteredBookmarks = bookmarks.filter(
+      (bookmark) => bookmark.url !== url
+    );
+    setBookmarks(filteredBookmarks);
+  };
+
   return (
     <>
       <h1>Marko</h1>
       <h2>My bookmarks</h2>
       <button onClick={toggleAddBookmarkDialog}>Add new bookmark</button>
-      <BookmarkList bookmarks={bookmarks} />
+      <BookmarkList bookmarks={bookmarks} deleteBookmark={deleteBookmark} />
       {showAddBookmarkDialog && (
         <AddBookmarkDialog
           addBookmark={addBookmark}

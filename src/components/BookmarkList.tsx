@@ -3,18 +3,17 @@ import BookmarkItem from "./BookmarkItem";
 
 interface Props {
   bookmarks: Bookmark[];
+  deleteBookmark: (bookmark: Bookmark) => void;
 }
 
-const BookmarksList = ({ bookmarks }: Props) => {
+const BookmarksList = ({ bookmarks, deleteBookmark }: Props) => {
   return (
     <div>
-      {bookmarks.map(({ description, url, title, image }) => (
+      {bookmarks.map((bookmark) => (
         <BookmarkItem
-          key={url}
-          description={description}
-          url={url}
-          title={title}
-          image={image}
+          key={bookmark.url}
+          bookmark={bookmark}
+          deleteBookmark={deleteBookmark}
         />
       ))}
     </div>

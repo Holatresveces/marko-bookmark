@@ -46,27 +46,34 @@ type ActionType =
     };
 
 const reducer = (state: State, action: ActionType): State => {
-  const { newBookmark } = state;
+  const { newBookmark, status } = state;
   switch (action.type) {
     case "update-input-value": {
       const { name, value } = action.payload;
 
-      // This works but doesn't enforce type checking on action.payload.value
-      //
-      // const newMetadata = {
-      //   metadata: { ...metadata, [action.payload.name]: action.payload.value },
-      //   status === 'loading': false,
-      // };
+      if (name === "url") {
+        const newState: State = {
+          newBookmark: {
+            description: "",
+            image: null,
+            title: "",
+            url: value,
+          },
+          status: "idle",
+          error: null,
+        };
 
-      const newState: State = {
-        newBookmark: { ...newBookmark },
-        status: "idle",
-        error: null,
-      };
+        return newState;
+      } else {
+        const newState: State = {
+          newBookmark: { ...newBookmark },
+          status,
+          error: null,
+        };
 
-      newState.newBookmark[name as keyof Bookmark] = value;
-
-      return newState;
+        newState.newBookmark[name as keyof Bookmark] = value;
+        return newState;
+      }
     }
     case "fetch-metadata":
       return {
@@ -120,9 +127,8 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
   };
 
   const handleSaveBookmark = () => {
-    // Check if there's any missing field
-    if (!description || !title || !url) {
-      console.log("Missing field");
+    if (status !== "resolved") {
+      console.log("Status is not resolved");
       return;
     }
 

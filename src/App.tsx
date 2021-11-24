@@ -45,10 +45,25 @@ const App = () => {
             {bookmarks.length === 0 ? (
               <Welcome toggleAddBookmarkDialog={toggleAddBookmarkDialog} />
             ) : (
-              <BookmarkList
-                bookmarks={bookmarks}
-                deleteBookmark={deleteBookmark}
-              />
+              <>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h1 className="font-semibold text-2xl mb-2">
+                      My Bookmarks
+                    </h1>
+                    <div className="w-12 h-1 bg-indigo-600"></div>
+                  </div>
+                  <Button
+                    onClick={toggleAddBookmarkDialog}
+                    text="Add new bookmark"
+                  />
+                </div>
+
+                <BookmarkList
+                  bookmarks={bookmarks}
+                  deleteBookmark={deleteBookmark}
+                />
+              </>
             )}
             {showAddBookmarkDialog && (
               <AddBookmarkDialog

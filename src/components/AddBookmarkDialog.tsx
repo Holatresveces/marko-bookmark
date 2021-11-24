@@ -3,6 +3,7 @@ import { Bookmark } from "../interfaces";
 import { IoMdClose } from "react-icons/io";
 import bookmarkPlaceholder from "../images/bookmark-header-placeholder.png";
 import axios from "axios";
+import BookmarkPreview from "./BookmarkPreview";
 
 // TODO: Handle error
 // TODO: Update Bookmark interface
@@ -75,16 +76,12 @@ const reducer = (state: State, action: ActionType): State => {
       };
     case "set-metadata": {
       const metadata = action.payload;
-      const { image } = metadata;
-      const newImage = image ? image : bookmarkPlaceholder;
 
       const newState: State = {
         newBookmark: { ...metadata },
         status: "resolved",
         error: null,
       };
-
-      newState.newBookmark.image = newImage;
 
       return newState;
     }
@@ -200,50 +197,13 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
               value="Load metadata"
             />
 
-            <div className="flex items-center">
-              <div className="flex-grow bg-gray-300 h-px"></div>
-              <span className="px-2 text-gray-400">Preview</span>
-              <div className="flex-grow bg-gray-300 h-px"></div>
-            </div>
-
-            <div className="font-medium">Meta Image</div>
-            <div className="w-full h-44 bg-gray-100 rounded-md overflow-hidden">
-              {image && (
-                <img
-                  className="w-full h-full object-cover"
-                  src={image}
-                  alt=""
-                />
-              )}
-            </div>
-
-            <div>
-              <label className="font-medium" htmlFor="title">
-                Meta Title
-              </label>
-            </div>
-            <input
-              id="title"
-              disabled={status === "loading"}
-              name="title"
-              onChange={handleInputChange}
-              placeholder="Ex. Welcome to my website"
-              type="text"
-              value={title || ""}
+            <BookmarkPreview
+              image={image}
+              status={status}
+              handleInputChange={handleInputChange}
+              title={title}
+              description={description}
             />
-
-            <div>
-              <label className="font-medium" htmlFor="description">
-                Meta Description
-              </label>
-            </div>
-            <textarea
-              disabled={status === "loading"}
-              id="description"
-              name="description"
-              onChange={handleInputChange}
-              value={description || ""}
-            ></textarea>
 
             <input
               className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium"

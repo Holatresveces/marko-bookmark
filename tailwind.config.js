@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         Inter: ["Inter", "sans-serif"],
+        Inconsolata: ["Inconsolata", "monospace"],
       },
     },
   },

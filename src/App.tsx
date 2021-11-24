@@ -46,7 +46,7 @@ const App = () => {
               <Welcome toggleAddBookmarkDialog={toggleAddBookmarkDialog} />
             ) : (
               <>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mt-14 mb-9">
                   <div>
                     <h1 className="font-semibold text-2xl mb-2">
                       My Bookmarks

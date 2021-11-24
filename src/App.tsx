@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Bookmark } from "./interfaces";
 import BookmarkList from "./components/BookmarkList";
+import AddBookmarkDialog from "./components/AddBookmarkDialog";
 
 const initialBookmarks: Bookmark[] = [
   {
@@ -28,16 +29,25 @@ const initialBookmarks: Bookmark[] = [
 
 const App = () => {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [showAddBookmarkDialog, setShowAddBookmarkDialog] = useState(false);
 
   useEffect(() => {
     setBookmarks(initialBookmarks);
   }, []);
 
+  const toggleAddBookmarkDialog = () => {
+    setShowAddBookmarkDialog(!showAddBookmarkDialog);
+  };
+
   return (
     <>
       <h1>Marko</h1>
       <h2>My bookmarks</h2>
+      <button onClick={toggleAddBookmarkDialog}>Add new bookmark</button>
       <BookmarkList bookmarks={bookmarks} />
+      {showAddBookmarkDialog && (
+        <AddBookmarkDialog toggle={toggleAddBookmarkDialog} />
+      )}
     </>
   );
 };

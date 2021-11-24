@@ -1,7 +1,6 @@
 import { ChangeEvent, useReducer } from "react";
 import { Bookmark } from "../interfaces";
 import { IoMdClose } from "react-icons/io";
-import bookmarkPlaceholder from "../images/bookmark-header-placeholder.png";
 import axios from "axios";
 import BookmarkPreview from "./BookmarkPreview";
 
@@ -168,7 +167,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
 
   return (
     <div className="fixed inset-0 bg-gray-700 bg-opacity-50">
-      <div className="absolute right-0 bg-white h-full max-w-lg">
+      <div className="absolute right-0 bg-white h-full w-full max-w-lg">
         <div className="bg-indigo-600">
           <div className="p-7 flex justify-between items-center text-white">
             <h2 className="font-medium">Create a new bookmark</h2>{" "}
@@ -179,12 +178,13 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
         </div>
         <div className="p-7">
           <form>
-            <div>
+            <div className="mb-2">
               <label className="font-medium" htmlFor="url">
                 Insert your URL
               </label>
             </div>
             <input
+              className="block w-full p-2 border-solid border-2 border-black rounded-md mb-2"
               id="name"
               disabled={status === "loading"}
               name="url"
@@ -218,7 +218,8 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
               type="button"
               value="Save bookmark"
             />
-            <div className="debug">{JSON.stringify(state, null, 3)}</div>
+            {/* For debugging purposes */}
+            {/* <pre className="debug">{JSON.stringify(state, null, 3)}</pre> */}
           </form>
         </div>
       </div>

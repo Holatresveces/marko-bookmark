@@ -9,9 +9,10 @@ import axios from "axios";
 
 interface State {
   newBookmark: Bookmark;
-  isLoading: boolean;
+  status: "idle" | "loading" | "resolved" | "rejected";
   error: string | null;
 }
+
 const initialState: State = {
   newBookmark: {
     description: "",
@@ -19,7 +20,7 @@ const initialState: State = {
     title: "",
     url: "",
   },
-  isLoading: false,
+  status: "idle",
   error: null,
 };
 
@@ -53,12 +54,12 @@ const reducer = (state: State, action: ActionType): State => {
       //
       // const newMetadata = {
       //   metadata: { ...metadata, [action.payload.name]: action.payload.value },
-      //   isLoading: false,
+      //   status === 'loading': false,
       // };
 
-      const newState = {
+      const newState: State = {
         newBookmark: { ...newBookmark },
-        isLoading: false,
+        status: "idle",
         error: null,
       };
 
@@ -67,15 +68,19 @@ const reducer = (state: State, action: ActionType): State => {
       return newState;
     }
     case "fetch-metadata":
-      return { newBookmark: { ...newBookmark }, isLoading: true, error: null };
+      return {
+        newBookmark: { ...newBookmark },
+        status: "loading",
+        error: null,
+      };
     case "set-metadata": {
       const metadata = action.payload;
       const { image } = metadata;
       const newImage = image ? image : bookmarkPlaceholder;
 
-      const newState = {
+      const newState: State = {
         newBookmark: { ...metadata },
-        isLoading: false,
+        status: "resolved",
         error: null,
       };
 
@@ -84,9 +89,9 @@ const reducer = (state: State, action: ActionType): State => {
       return newState;
     }
     case "reset-metadata": {
-      const newState = {
+      const newState: State = {
         ...initialState,
-        isLoading: false,
+        status: "rejected",
         error: "Oops! Something went wrong...",
       };
       newState.newBookmark.image = null;
@@ -107,7 +112,7 @@ interface Props {
 const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { newBookmark, isLoading } = state;
+  const { newBookmark, status } = state;
   const { description, image, title, url } = newBookmark;
 
   const handleInputChange = ({
@@ -135,7 +140,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
   };
 
   const loadMetadata = () => {
-    if (isLoading) return;
+    if (status === "loading") return;
 
     if (!url.trim()) {
       console.log("Insert a valid URL!");
@@ -178,7 +183,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
             </div>
             <input
               id="name"
-              disabled={isLoading}
+              disabled={status === "loading"}
               name="url"
               onChange={handleInputChange}
               placeholder="https://company.com"
@@ -188,7 +193,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
 
             <input
               className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium"
-              disabled={isLoading}
+              disabled={status === "loading"}
               onClick={loadMetadata}
               placeholder="https://company.com"
               type="button"
@@ -219,7 +224,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
             </div>
             <input
               id="title"
-              disabled={isLoading}
+              disabled={status === "loading"}
               name="title"
               onChange={handleInputChange}
               placeholder="Ex. Welcome to my website"
@@ -233,7 +238,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
               </label>
             </div>
             <textarea
-              disabled={isLoading}
+              disabled={status === "loading"}
               id="description"
               name="description"
               onChange={handleInputChange}
@@ -242,7 +247,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
 
             <input
               className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium"
-              disabled={isLoading}
+              disabled={status === "loading"}
               onClick={handleSaveBookmark}
               type="button"
               value="Save bookmark"

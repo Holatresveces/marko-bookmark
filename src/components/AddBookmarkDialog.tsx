@@ -1,5 +1,7 @@
 import { ChangeEvent, useReducer } from "react";
 import { Bookmark } from "../interfaces";
+import { IoMdClose } from "react-icons/io";
+import bookmarkPlaceholder from "../images/bookmark-header-placeholder.png";
 
 // TODO: Handle error
 // TODO: Update Bookmark interface
@@ -74,7 +76,9 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
   const { newBookmark, isLoading } = state;
   const { description, image, title, url } = newBookmark;
 
-  const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = ({
+    target,
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = target;
     dispatch({ type: "update-input-value", payload: { name, value } });
   };
@@ -120,72 +124,98 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
   };
 
   return (
-    <div>
-      <div>
-        Create a new bookmark <span onClick={toggleDialog}>X</span>
-      </div>
-      <form>
-        <div>
-          <label>
-            Insert your URL
+    <div className="fixed inset-0 bg-gray-700 bg-opacity-50">
+      <div className="absolute right-0 bg-white h-full max-w-lg">
+        <div className="bg-indigo-600">
+          <div className="p-7 flex justify-between items-center text-white">
+            <h2 className="font-medium">Create a new bookmark</h2>{" "}
+            <span className="cursor-pointer" onClick={toggleDialog}>
+              <IoMdClose size="1.5em" />
+            </span>
+          </div>
+        </div>
+        <div className="p-7">
+          <form>
+            <div>
+              <label className="font-medium" htmlFor="url">
+                Insert your URL
+              </label>
+            </div>
             <input
+              id="name"
               disabled={isLoading}
               name="url"
-              onChange={handleChange}
+              onChange={handleInputChange}
+              placeholder="https://company.com"
               type="text"
               value={url || ""}
             />
-          </label>
-        </div>
 
-        <input
-          disabled={isLoading}
-          onClick={loadMetadata}
-          placeholder="https://company.com"
-          type="button"
-          value="Load metadata"
-        />
-
-        <div>
-          <div>Meta Image</div>
-          <div></div>
-        </div>
-
-        <div>
-          <label>
-            Meta Title
             <input
+              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium"
+              disabled={isLoading}
+              onClick={loadMetadata}
+              placeholder="https://company.com"
+              type="button"
+              value="Load metadata"
+            />
+
+            <div className="flex items-center">
+              <div className="flex-grow bg-gray-300 h-px"></div>
+              <span className="px-2 text-gray-400">Preview</span>
+              <div className="flex-grow bg-gray-300 h-px"></div>
+            </div>
+
+            <div className="font-medium">Meta Image</div>
+            <div className="w-full h-44 bg-gray-100 rounded-md overflow-hidden">
+              {image && (
+                <img
+                  className="w-full h-full object-cover"
+                  src={image}
+                  alt=""
+                />
+              )}
+            </div>
+
+            <div>
+              <label className="font-medium" htmlFor="title">
+                Meta Title
+              </label>
+            </div>
+            <input
+              id="title"
               disabled={isLoading}
               name="title"
-              onChange={handleChange}
+              onChange={handleInputChange}
               placeholder="Ex. Welcome to my website"
               type="text"
               value={title || ""}
             />
-          </label>
-        </div>
 
-        <div>
-          <label>
-            Meta Description
-            <input
+            <div>
+              <label className="font-medium" htmlFor="description">
+                Meta Description
+              </label>
+            </div>
+            <textarea
               disabled={isLoading}
+              id="description"
               name="description"
-              onChange={handleChange}
-              type="text"
+              onChange={handleInputChange}
               value={description || ""}
-            />
-          </label>
-        </div>
+            ></textarea>
 
-        <input
-          disabled={isLoading}
-          onClick={handleSaveBookmark}
-          type="button"
-          value="Save bookmark"
-        />
-        <div className="debug">{JSON.stringify(state, null, 3)}</div>
-      </form>
+            <input
+              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium"
+              disabled={isLoading}
+              onClick={handleSaveBookmark}
+              type="button"
+              value="Save bookmark"
+            />
+            <div className="debug">{JSON.stringify(state, null, 3)}</div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

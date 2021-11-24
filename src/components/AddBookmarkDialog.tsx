@@ -106,16 +106,17 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
 
     dispatch({ type: "fetch-metadata" });
 
-    setTimeout(() => {
-      const metadata = {
-        url: "http://www.google.com",
-        image: null,
-        title: "Test Title",
-        description: "Test Description",
-      };
-
-      dispatch({ type: "set-metadata", payload: metadata });
-    }, 2000);
+    fetch(`http://localhost:3001/api/metadata?url=${url}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((metadata) => {
+        console.log(metadata);
+        dispatch({ type: "set-metadata", payload: metadata });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

@@ -55,10 +55,12 @@ const reducer = (state: State, action: ActionType): State => {
 };
 
 interface Props {
+  addBookmark: (bookmark: Bookmark) => void;
+  bookmarks: Bookmark[];
   toggleDialog: () => void;
 }
 
-const AddBookmarkModal = ({ toggleDialog }: Props) => {
+const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
   const [state, dispatch] = useReducer(reducer, {
     newBookmark: {
       description: "",
@@ -69,21 +71,44 @@ const AddBookmarkModal = ({ toggleDialog }: Props) => {
     isLoading: false,
   });
 
-  const { isLoading } = state;
-  const { description, image, title, url } = state.newBookmark;
+  const { newBookmark, isLoading } = state;
+  const { description, image, title, url } = newBookmark;
 
   const handleChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
     dispatch({ type: "update-input-value", payload: { name, value } });
   };
 
+  const handleSaveBookmark = () => {
+    // Check if there's any missing field
+    if (!description || !title || !url) {
+      console.log("Missing field");
+      return;
+    }
+
+    // Check if bookmarks's URL already exists
+    if (bookmarks.find((bookmark) => bookmark.url === url)) {
+      console.log("Bookmark already exists");
+      return;
+    }
+
+    console.log("New bookmark added");
+    addBookmark(newBookmark);
+  };
+
   const loadMetadata = () => {
-    if (isLoading || !url.trim()) return;
+    if (isLoading) return;
+
+    if (!url.trim()) {
+      console.log("Insert a valid URL!");
+      return;
+    }
+
     dispatch({ type: "fetch-metadata" });
 
     setTimeout(() => {
       const metadata = {
-        url: "www.google.com",
+        url: "http://www.google.com",
         image: null,
         title: "Test Title",
         description: "Test Description",
@@ -176,7 +201,12 @@ const AddBookmarkModal = ({ toggleDialog }: Props) => {
           </label>
         </div>
 
-        <input disabled={isLoading} type="button" value="Save bookmark" />
+        <input
+          disabled={isLoading}
+          onClick={handleSaveBookmark}
+          type="button"
+          value="Save bookmark"
+        />
         <div className="debug">{JSON.stringify(state, null, 3)}</div>
       </form>
     </div>

@@ -39,6 +39,10 @@ const App = () => {
     setShowAddBookmarkDialog(!showAddBookmarkDialog);
   };
 
+  const addBookmark = (bookmark: Bookmark) => {
+    setBookmarks([...bookmarks, bookmark]);
+  };
+
   return (
     <>
       <h1>Marko</h1>
@@ -46,7 +50,11 @@ const App = () => {
       <button onClick={toggleAddBookmarkDialog}>Add new bookmark</button>
       <BookmarkList bookmarks={bookmarks} />
       {showAddBookmarkDialog && (
-        <AddBookmarkDialog toggleDialog={toggleAddBookmarkDialog} />
+        <AddBookmarkDialog
+          addBookmark={addBookmark}
+          bookmarks={bookmarks}
+          toggleDialog={toggleAddBookmarkDialog}
+        />
       )}
     </>
   );

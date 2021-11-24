@@ -120,27 +120,9 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
   };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        width: "100%",
-        height: "100%",
-        top: "0",
-        left: "0",
-        background: "white",
-      }}
-    >
+    <div>
       <div>
-        Create a new bookmark{" "}
-        <span
-          onClick={toggleDialog}
-          style={{
-            float: "right",
-            padding: "30px",
-          }}
-        >
-          X
-        </span>
+        Create a new bookmark <span onClick={toggleDialog}>X</span>
       </div>
       <form>
         <div>
@@ -166,13 +148,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
 
         <div>
           <div>Meta Image</div>
-          <div
-            style={{
-              width: "200px",
-              height: "100px",
-              background: "#ddd",
-            }}
-          ></div>
+          <div></div>
         </div>
 
         <div>

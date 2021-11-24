@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Bookmark } from "./interfaces";
 import BookmarkList from "./components/BookmarkList";
 import AddBookmarkDialog from "./components/AddBookmarkDialog";
+import Header from "./components/Header";
 
 const App = () => {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
@@ -35,8 +36,7 @@ const App = () => {
 
   return (
     <>
-      <h1>Marko</h1>
-      <h2>My bookmarks</h2>
+      <Header />
       <button onClick={toggleAddBookmarkDialog}>Add new bookmark</button>
       <BookmarkList bookmarks={bookmarks} deleteBookmark={deleteBookmark} />
       {showAddBookmarkDialog && (

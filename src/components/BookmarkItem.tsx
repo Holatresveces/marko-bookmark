@@ -13,13 +13,16 @@ const BookmarkItem = ({ bookmark, deleteBookmark }: Props) => {
   return (
     <article className="w-full rounded-lg bg-white">
       <div className="p-4 font-Inter flex flex-col h-full">
-        <div className="h-36 overflow-hidden rounded-lg mb-4">
-          <img
-            src={image ? image : bookmarkPlaceholder}
-            className="w-full h-full object-cover"
-            alt=""
-          />
-        </div>
+        <a href={url} target="_blank" rel="noreferrer">
+          <div className="h-36 overflow-hidden rounded-lg mb-4">
+            <img
+              src={image ? image : bookmarkPlaceholder}
+              className="w-full h-full object-cover"
+              alt=""
+            />
+          </div>
+        </a>
+
         <h1 className="text-base font-semibold h-20">
           {title ? title : "[No title]"}
         </h1>

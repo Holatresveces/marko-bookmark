@@ -151,8 +151,10 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
 
     dispatch({ type: "fetch-metadata" });
 
+    const baseUrl = "/api/metadata";
+
     axios
-      .get(`http://localhost:3001/api/metadata?url=${url}`)
+      .get(`${baseUrl}?url=${url}`)
       .then(({ data }) => {
         console.log("metadata fetched successfully");
         console.log(data);

@@ -19,6 +19,7 @@ const App = () => {
 
   useEffect(() => {
     window.localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+    setShowAddBookmarkDialog(false);
   }, [bookmarks]);
 
   const toggleAddBookmarkDialog = () => {

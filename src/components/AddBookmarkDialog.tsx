@@ -127,13 +127,13 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
 
   const handleSaveBookmark = () => {
     if (status !== "resolved") {
-      console.log("Status is not resolved");
+      alert("Please load some metadata first :)");
       return;
     }
 
     // Check if bookmarks's URL already exists
     if (bookmarks.find((bookmark) => bookmark.url === url)) {
-      console.log("Bookmark already exists");
+      alert("Bookmark already exists");
       return;
     }
 
@@ -161,6 +161,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
       .catch((err) => {
         console.log("metadata fetching failed");
         console.log(err);
+        alert("Whoops! Something went wrong...");
         dispatch({ type: "reset-metadata", payload: { error: err } });
       });
   };
@@ -168,6 +169,16 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
   return (
     <div className="fixed inset-0 bg-gray-700 bg-opacity-50">
       <div className="absolute right-0 bg-white h-full w-full max-w-lg">
+        <div
+          style={{
+            transition: "opacity 0.2s",
+          }}
+          className={`absolute top-0 left-0 w-full h-full bg-white ${
+            status === "loading"
+              ? "opacity-50"
+              : "pointer-events-none opacity-0"
+          }`}
+        ></div>
         <div className="bg-indigo-600">
           <div className="p-7 flex justify-between items-center text-white">
             <h2 className="font-medium">Create a new bookmark</h2>{" "}
@@ -195,7 +206,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
             />
 
             <input
-              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium"
+              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium cursor-pointer"
               disabled={status === "loading"}
               onClick={loadMetadata}
               placeholder="https://company.com"
@@ -212,7 +223,7 @@ const AddBookmarkModal = ({ addBookmark, bookmarks, toggleDialog }: Props) => {
             />
 
             <input
-              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium"
+              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md font-Inter font-medium cursor-pointer"
               disabled={status === "loading"}
               onClick={handleSaveBookmark}
               type="button"

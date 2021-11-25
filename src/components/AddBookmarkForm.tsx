@@ -17,8 +17,8 @@ const AddBookmarkForm = ({
   fetchMetadata,
   handleSaveBookmark,
 }: Props) => {
-  const { newBookmark, status } = state;
-  const { description, title, image, url } = newBookmark;
+  const { data, status } = state;
+  const { description, title, image, url } = data;
 
   return (
     <div className="p-7">

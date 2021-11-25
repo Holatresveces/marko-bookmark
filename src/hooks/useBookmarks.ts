@@ -15,8 +15,12 @@ export const useBookmarks = () => {
     window.localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
   }, [bookmarks]);
 
-  const addBookmark = (bookmark: Bookmark) => {
-    setBookmarks([...bookmarks, bookmark]);
+  const addBookmark = (newBookmark: Bookmark) => {
+    if (bookmarks.find(({ url }) => newBookmark.url === url)) {
+      alert("Bookmark already exists");
+      return;
+    }
+    setBookmarks([...bookmarks, newBookmark]);
   };
 
   const deleteBookmark = ({ url }: Bookmark) => {

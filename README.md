@@ -40,6 +40,9 @@ npm run server
 
 ## TO DO:
 
-- Fix mobile styles
+- Fix responsive styles
+- Fix BookmarkItem max-height
+- Fix description line-clamp
 - Extract common Tailwind classes
+- Set a max timeout for fetchMetadata request
 - Move `alert` messages into a Notification/Error component

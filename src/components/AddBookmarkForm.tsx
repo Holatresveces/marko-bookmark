@@ -1,9 +1,9 @@
 import { ChangeEvent } from "react";
 import BookmarkPreview from "./BookmarkPreview";
-import { AsyncMetadataState } from "../interfaces/index";
+import { AsyncFormState } from "../interfaces/index";
 
 interface Props {
-  state: AsyncMetadataState;
+  asyncFormState: AsyncFormState;
   handleInputChange: (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -12,12 +12,12 @@ interface Props {
 }
 
 const AddBookmarkForm = ({
-  state,
+  asyncFormState,
   handleInputChange,
   fetchMetadata,
   handleSaveBookmark,
 }: Props) => {
-  const { data, status } = state;
+  const { data, status } = asyncFormState;
   const { description, title, image, url } = data;
 
   return (

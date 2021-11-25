@@ -8,7 +8,7 @@ import { useAsyncForm } from "./hooks/useAsyncForm";
 
 const App = () => {
   // useAsyncForm keeps track of form input values which can also be modified by the fetchMetadata async call
-  const { state, updateInput, fetchMetadata } = useAsyncForm({
+  const { asyncFormState, updateInput, fetchMetadata } = useAsyncForm({
     data: {
       description: null,
       image: null,
@@ -46,7 +46,7 @@ const App = () => {
         addBookmark={addBookmark}
         bookmarks={bookmarks}
         fetchMetadata={fetchMetadata}
-        state={state}
+        asyncFormState={asyncFormState}
         showAddBookmarkDialog={showAddBookmarkDialog}
         toggleAddBookmarkDialog={toggleAddBookmarkDialog}
         updateInput={updateInput}

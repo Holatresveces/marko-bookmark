@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { Bookmark, AsyncMetadataState } from "../interfaces";
+import { Bookmark, AsyncFormState } from "../interfaces";
 import AddBookmarkHeader from "./AddBookmarkHeader";
 import AddBookmarkForm from "./AddBookmarkForm";
 
@@ -7,7 +7,7 @@ interface Props {
   addBookmark: (bookmark: Bookmark) => void;
   bookmarks: Bookmark[];
   toggleAddBookmarkDialog: () => void;
-  state: AsyncMetadataState;
+  asyncFormState: AsyncFormState;
   showAddBookmarkDialog: boolean;
   updateInput: (payload: { name: string; value: string }) => void;
   fetchMetadata: () => void;
@@ -17,12 +17,12 @@ const AddBookmarkDialog = ({
   addBookmark,
   bookmarks,
   toggleAddBookmarkDialog,
-  state,
+  asyncFormState,
   showAddBookmarkDialog,
   fetchMetadata,
   updateInput,
 }: Props) => {
-  const { status, data } = state;
+  const { status, data } = asyncFormState;
 
   const handleInputChange = ({
     target,
@@ -76,7 +76,7 @@ const AddBookmarkDialog = ({
         ></div>
         <AddBookmarkHeader toggleAddBookmarkDialog={toggleAddBookmarkDialog} />
         <AddBookmarkForm
-          state={state}
+          asyncFormState={asyncFormState}
           handleInputChange={handleInputChange}
           fetchMetadata={fetchMetadata}
           handleSaveBookmark={handleSaveBookmark}

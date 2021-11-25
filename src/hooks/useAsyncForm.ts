@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useReducer } from "react";
-import { AsyncMetadataState } from "../interfaces";
+import { AsyncFormState } from "../interfaces";
 import { asyncFormReducer } from "../reducers/asyncFormReducer";
 
-const INITIAL_STATE: AsyncMetadataState = {
+const INITIAL_STATE: AsyncFormState = {
   data: {
     description: null,
     image: null,
@@ -14,11 +14,9 @@ const INITIAL_STATE: AsyncMetadataState = {
   error: null,
 };
 
-export const useAsyncForm = (
-  initialState: AsyncMetadataState = INITIAL_STATE
-) => {
-  const [state, dispatch] = useReducer(asyncFormReducer, initialState);
-  const { status, data } = state;
+export const useAsyncForm = (initialState: AsyncFormState = INITIAL_STATE) => {
+  const [asyncFormState, dispatch] = useReducer(asyncFormReducer, initialState);
+  const { status, data } = asyncFormState;
   const { url } = data;
 
   const updateInput = (payload: { name: string; value: string }) => {
@@ -52,5 +50,5 @@ export const useAsyncForm = (
       });
   };
 
-  return { state, fetchMetadata, updateInput };
+  return { asyncFormState, fetchMetadata, updateInput };
 };

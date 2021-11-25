@@ -1,7 +1,7 @@
 import { Bookmark } from "../interfaces";
-import { AsyncMetadataState } from "../interfaces/index";
+import { AsyncFormState } from "../interfaces/index";
 
-const initialState: AsyncMetadataState = {
+const initialState: AsyncFormState = {
   data: {
     description: null,
     image: null,
@@ -33,9 +33,9 @@ export type ActionType =
     };
 
 export const asyncFormReducer = (
-  state: AsyncMetadataState,
+  state: AsyncFormState,
   action: ActionType
-): AsyncMetadataState => {
+): AsyncFormState => {
   const { data, status } = state;
   switch (action.type) {
     case "update-input-value": {
@@ -53,7 +53,7 @@ export const asyncFormReducer = (
       const { name, value } = action.payload;
 
       if (name === "url") {
-        const newState: AsyncMetadataState = {
+        const newState: AsyncFormState = {
           data: {
             description: "",
             image: null,
@@ -66,7 +66,7 @@ export const asyncFormReducer = (
 
         return newState;
       } else {
-        const newState: AsyncMetadataState = {
+        const newState: AsyncFormState = {
           data: { ...data },
           status,
           error: null,
@@ -85,7 +85,7 @@ export const asyncFormReducer = (
     case "set-metadata": {
       const metadata = action.payload;
 
-      const newState: AsyncMetadataState = {
+      const newState: AsyncFormState = {
         data: { ...metadata },
         status: "resolved",
         error: null,
@@ -94,7 +94,7 @@ export const asyncFormReducer = (
       return newState;
     }
     case "set-error": {
-      const newState: AsyncMetadataState = {
+      const newState: AsyncFormState = {
         ...initialState,
         status: "rejected",
         error: "Oops! Something went wrong...",

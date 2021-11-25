@@ -7,9 +7,9 @@ import { addBookmarkReducer } from "../reducers/AddBookmarkReducer";
 
 const initialState: AsyncMetadataState = {
   newBookmark: {
-    description: "",
-    image: "",
-    title: "",
+    description: null,
+    image: null,
+    title: null,
     url: "",
   },
   status: "idle",
@@ -18,10 +18,10 @@ const initialState: AsyncMetadataState = {
 
 interface Props {
   addBookmark: (bookmark: Bookmark) => void;
-  toggleDialog: () => void;
+  toggleAddBookmarkDialog: () => void;
 }
 
-const AddBookmarkModal = ({ addBookmark, toggleDialog }: Props) => {
+const AddBookmarkModal = ({ addBookmark, toggleAddBookmarkDialog }: Props) => {
   const [state, dispatch] = useReducer(addBookmarkReducer, initialState);
 
   const { newBookmark, status } = state;
@@ -84,7 +84,7 @@ const AddBookmarkModal = ({ addBookmark, toggleDialog }: Props) => {
               : "pointer-events-none opacity-0"
           }`}
         ></div>
-        <AddBookmarkHeader toggleDialog={toggleDialog} />
+        <AddBookmarkHeader toggleAddBookmarkDialog={toggleAddBookmarkDialog} />
         <AddBookmarkForm
           state={state}
           handleInputChange={handleInputChange}

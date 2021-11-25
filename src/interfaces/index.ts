@@ -6,7 +6,7 @@ export interface Bookmark {
 }
 
 export interface AsyncMetadataState {
-  newBookmark: Bookmark;
+  data: Bookmark;
   status: "idle" | "loading" | "resolved" | "rejected";
   error: string | null;
 }

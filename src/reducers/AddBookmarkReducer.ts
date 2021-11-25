@@ -2,7 +2,7 @@ import { Bookmark } from "../interfaces";
 import { AsyncMetadataState } from "../interfaces/index";
 
 const initialState: AsyncMetadataState = {
-  newBookmark: {
+  data: {
     description: null,
     image: null,
     title: null,
@@ -12,7 +12,7 @@ const initialState: AsyncMetadataState = {
   error: null,
 };
 
-type ActionType =
+export type ActionType =
   | { type: "fetch-metadata" }
   | {
       type: "update-input-value";
@@ -36,7 +36,7 @@ export const addBookmarkReducer = (
   state: AsyncMetadataState,
   action: ActionType
 ): AsyncMetadataState => {
-  const { newBookmark, status } = state;
+  const { data, status } = state;
   switch (action.type) {
     case "update-input-value": {
       /**
@@ -54,7 +54,7 @@ export const addBookmarkReducer = (
 
       if (name === "url") {
         const newState: AsyncMetadataState = {
-          newBookmark: {
+          data: {
             description: "",
             image: null,
             title: "",
@@ -67,18 +67,18 @@ export const addBookmarkReducer = (
         return newState;
       } else {
         const newState: AsyncMetadataState = {
-          newBookmark: { ...newBookmark },
+          data: { ...data },
           status,
           error: null,
         };
 
-        newState.newBookmark[name as keyof Bookmark] = value;
+        newState.data[name as keyof Bookmark] = value;
         return newState;
       }
     }
     case "fetch-metadata":
       return {
-        newBookmark: { ...newBookmark },
+        data: { ...data },
         status: "loading",
         error: null,
       };
@@ -86,7 +86,7 @@ export const addBookmarkReducer = (
       const metadata = action.payload;
 
       const newState: AsyncMetadataState = {
-        newBookmark: { ...metadata },
+        data: { ...metadata },
         status: "resolved",
         error: null,
       };
@@ -99,7 +99,7 @@ export const addBookmarkReducer = (
         status: "rejected",
         error: "Oops! Something went wrong...",
       };
-      newState.newBookmark.image = null;
+      newState.data.image = null;
 
       return newState;
     }

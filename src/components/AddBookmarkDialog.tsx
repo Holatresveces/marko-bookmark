@@ -1,73 +1,45 @@
-import { ChangeEvent, useReducer } from "react";
+import { ChangeEvent } from "react";
 import { Bookmark, AsyncMetadataState } from "../interfaces";
-import axios from "axios";
 import AddBookmarkHeader from "./AddBookmarkHeader";
 import AddBookmarkForm from "./AddBookmarkForm";
-import { addBookmarkReducer } from "../reducers/AddBookmarkReducer";
-
-const initialState: AsyncMetadataState = {
-  newBookmark: {
-    description: null,
-    image: null,
-    title: null,
-    url: "",
-  },
-  status: "idle",
-  error: null,
-};
 
 interface Props {
   addBookmark: (bookmark: Bookmark) => void;
+  bookmarks: Bookmark[];
   toggleAddBookmarkDialog: () => void;
+  state: AsyncMetadataState;
+  updateInput: (payload: { name: string; value: string }) => void;
+  fetchMetadata: () => void;
 }
 
-const AddBookmarkDialog = ({ addBookmark, toggleAddBookmarkDialog }: Props) => {
-  const [state, dispatch] = useReducer(addBookmarkReducer, initialState);
-
-  const { newBookmark, status } = state;
-  const { url } = newBookmark;
+const AddBookmarkDialog = ({
+  addBookmark,
+  bookmarks,
+  toggleAddBookmarkDialog,
+  state,
+  fetchMetadata,
+  updateInput,
+}: Props) => {
+  const { status, data } = state;
 
   const handleInputChange = ({
     target,
   }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = target;
-    dispatch({ type: "update-input-value", payload: { name, value } });
+    updateInput({ name, value });
   };
 
   const handleSaveBookmark = () => {
     if (status !== "resolved") {
-      alert("Please load some metadata first :)");
+      alert("Please load some metadata first");
       return;
     }
-    console.log("New bookmark added");
-    addBookmark(newBookmark);
-  };
-
-  const fetchMetadata = () => {
-    if (status === "loading") return;
-
-    if (!url.trim()) {
-      alert("Insert a valid URL!");
+    if (bookmarks.find((bookmark) => bookmark.url === data.url)) {
+      alert("Bookmark already exists");
       return;
     }
-
-    dispatch({ type: "fetch-metadata" });
-
-    const baseUrl = "/api/metadata";
-
-    axios
-      .get(`${baseUrl}?url=${url}`)
-      .then(({ data }) => {
-        console.log("metadata fetched successfully");
-        console.log(data);
-        dispatch({ type: "set-metadata", payload: data });
-      })
-      .catch((err) => {
-        console.log("metadata fetching failed");
-        console.log(err);
-        alert("Whoops! Something went wrong...");
-        dispatch({ type: "set-error", payload: { error: err } });
-      });
+    addBookmark(data);
+    toggleAddBookmarkDialog();
   };
 
   return (

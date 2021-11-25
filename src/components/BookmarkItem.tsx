@@ -29,7 +29,7 @@ const BookmarkItem = ({ bookmark, deleteBookmark }: Props) => {
           </h1>
         </a>
         <a
-          className="font-Inconsolata text-sm inline-block mb-2"
+          className="font-Inconsolata text-sm inline-block mb-2 break-words"
           href={url}
           target="_blank"
           rel="noreferrer"

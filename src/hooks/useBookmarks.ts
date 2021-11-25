@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Bookmark } from "../interfaces";
 
 export const useBookmarks = () => {
+  // Lazy initialization
   const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => {
     const value = window.localStorage.getItem("bookmarks");
     if (value) {
@@ -11,6 +12,7 @@ export const useBookmarks = () => {
     }
   });
 
+  // Store bookmarks on localStorage each time the bookmarks array gets updated
   useEffect(() => {
     window.localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
   }, [bookmarks]);

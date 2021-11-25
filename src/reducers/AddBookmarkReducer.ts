@@ -3,9 +3,9 @@ import { AsyncMetadataState } from "../interfaces/index";
 
 const initialState: AsyncMetadataState = {
   newBookmark: {
-    description: "",
-    image: "",
-    title: "",
+    description: null,
+    image: null,
+    title: null,
     url: "",
   },
   status: "idle",

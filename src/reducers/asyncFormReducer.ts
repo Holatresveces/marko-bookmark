@@ -32,7 +32,7 @@ export type ActionType =
       };
     };
 
-export const addBookmarkReducer = (
+export const asyncFormReducer = (
   state: AsyncMetadataState,
   action: ActionType
 ): AsyncMetadataState => {

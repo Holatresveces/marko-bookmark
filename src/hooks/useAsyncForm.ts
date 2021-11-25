@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useReducer } from "react";
 import { AsyncMetadataState } from "../interfaces";
-import { addBookmarkReducer } from "../reducers/AddBookmarkReducer";
+import { asyncFormReducer } from "../reducers/asyncFormReducer";
 
 const INITIAL_STATE: AsyncMetadataState = {
   data: {
@@ -17,7 +17,7 @@ const INITIAL_STATE: AsyncMetadataState = {
 export const useAsyncForm = (
   initialState: AsyncMetadataState = INITIAL_STATE
 ) => {
-  const [state, dispatch] = useReducer(addBookmarkReducer, initialState);
+  const [state, dispatch] = useReducer(asyncFormReducer, initialState);
   const { status, data } = state;
   const { url } = data;
 

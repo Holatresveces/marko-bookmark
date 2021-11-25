@@ -42,16 +42,15 @@ const App = () => {
         />
       )}
 
-      {showAddBookmarkDialog && (
-        <AddBookmarkDialog
-          bookmarks={bookmarks}
-          state={state}
-          updateInput={updateInput}
-          fetchMetadata={fetchMetadata}
-          addBookmark={addBookmark}
-          toggleAddBookmarkDialog={toggleAddBookmarkDialog}
-        />
-      )}
+      <AddBookmarkDialog
+        addBookmark={addBookmark}
+        bookmarks={bookmarks}
+        fetchMetadata={fetchMetadata}
+        state={state}
+        showAddBookmarkDialog={showAddBookmarkDialog}
+        toggleAddBookmarkDialog={toggleAddBookmarkDialog}
+        updateInput={updateInput}
+      />
     </>
   );
 };

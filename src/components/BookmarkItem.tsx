@@ -23,9 +23,11 @@ const BookmarkItem = ({ bookmark, deleteBookmark }: Props) => {
           </div>
         </a>
 
-        <h1 className="text-base font-semibold h-20">
-          {title ? title : "[No title]"}
-        </h1>
+        <a href={url} target="_blank" rel="noreferrer">
+          <h1 className="text-base font-semibold h-20">
+            {title ? title : "[No title]"}
+          </h1>
+        </a>
         <a
           className="font-Inconsolata text-sm inline-block mb-2"
           href={url}

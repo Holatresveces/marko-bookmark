@@ -8,6 +8,7 @@ interface Props {
   bookmarks: Bookmark[];
   toggleAddBookmarkDialog: () => void;
   state: AsyncMetadataState;
+  showAddBookmarkDialog: boolean;
   updateInput: (payload: { name: string; value: string }) => void;
   fetchMetadata: () => void;
 }
@@ -17,6 +18,7 @@ const AddBookmarkDialog = ({
   bookmarks,
   toggleAddBookmarkDialog,
   state,
+  showAddBookmarkDialog,
   fetchMetadata,
   updateInput,
 }: Props) => {
@@ -43,11 +45,27 @@ const AddBookmarkDialog = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-700 bg-opacity-50">
-      <div className="absolute right-0 bg-white h-full w-full max-w-lg">
+    <>
+      {/* There are probably better ways to accomplish these animations asdfasd */}
+      <div
+        style={{
+          pointerEvents: showAddBookmarkDialog ? "auto" : "none",
+          opacity: showAddBookmarkDialog ? "1" : "0",
+          transition: "opacity 0.4s",
+        }}
+        className="fixed inset-0 bg-gray-700 bg-opacity-50"
+      ></div>
+      <div
+        style={{
+          transition: "transform 0.4s",
+          transform: showAddBookmarkDialog
+            ? "translate3d(0, 0, 0"
+            : "translate3d(100%, 0, 0)",
+        }}
+        className="fixed top-0 right-0 bg-white h-full w-full max-w-lg"
+      >
         <div
           style={{
-            // Probably not the best way to do this lol
             transition: "opacity 0.2s",
           }}
           className={`absolute top-0 left-0 w-full h-full bg-white ${
@@ -64,7 +82,7 @@ const AddBookmarkDialog = ({
           handleSaveBookmark={handleSaveBookmark}
         />
       </div>
-    </div>
+    </>
   );
 };
 

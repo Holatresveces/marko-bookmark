@@ -21,7 +21,7 @@ interface Props {
   toggleAddBookmarkDialog: () => void;
 }
 
-const AddBookmarkModal = ({ addBookmark, toggleAddBookmarkDialog }: Props) => {
+const AddBookmarkDialog = ({ addBookmark, toggleAddBookmarkDialog }: Props) => {
   const [state, dispatch] = useReducer(addBookmarkReducer, initialState);
 
   const { newBookmark, status } = state;
@@ -96,4 +96,4 @@ const AddBookmarkModal = ({ addBookmark, toggleAddBookmarkDialog }: Props) => {
   );
 };
 
-export default AddBookmarkModal;
+export default AddBookmarkDialog;

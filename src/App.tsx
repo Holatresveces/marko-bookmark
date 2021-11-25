@@ -31,7 +31,7 @@ const App = () => {
       {showAddBookmarkDialog && (
         <AddBookmarkDialog
           addBookmark={addBookmark}
-          toggleDialog={toggleAddBookmarkDialog}
+          toggleAddBookmarkDialog={toggleAddBookmarkDialog}
         />
       )}
     </>

@@ -24,7 +24,6 @@ const App = () => {
           addBookmark={addBookmark}
           bookmarks={bookmarks}
           deleteBookmark={deleteBookmark}
-          showAddBookmarkDialog={showAddBookmarkDialog}
           toggleAddBookmarkDialog={toggleAddBookmarkDialog}
         />
       )}
@@ -32,7 +31,6 @@ const App = () => {
       {showAddBookmarkDialog && (
         <AddBookmarkDialog
           addBookmark={addBookmark}
-          bookmarks={bookmarks}
           toggleDialog={toggleAddBookmarkDialog}
         />
       )}
